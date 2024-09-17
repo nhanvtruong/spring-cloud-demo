@@ -1,0 +1,31 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: service-b
+          uri: http://localhost:8082
+          predicates:
+            - Path=/**
+          filters:
+            - AddRequestHeader=access-control-allow-origin,*
+            - AddRequestHeader=access-control-max-age,3600
+            - AddResponseHeader=X-Forwarded-For,0:0:0:0:0:0:0:1
+            - name: Retry # Spring Cloud pre-defined constant
+              args:
+                retries: 3
+                methods: GET
+                series: SERVER_ERROR # Spring Cloud pre-defined constant
+                backoff:
+                  firstBackOff: 50ms # The initial delay before the first retry
+                  maxBackoff: 500ms # The maximum delay between retries
+            - name: RequestRateLimiter
+              args:
+                key-resolver: "#{@keyResolver}"
+                redis-rate-limiter:
+                  replenishRate: 60
+                  burstCapacity: 60
+                  requestedTokens: 10
