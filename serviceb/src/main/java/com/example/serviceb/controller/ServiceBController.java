@@ -26,6 +26,6 @@ public class ServiceBController {
 
     public String fallbackServiceB(Throwable throwable) {
         log.error(throwable.getMessage(), throwable);
-        return "Service A is down .Wait here , we're in service B...!";
+        return "Service A is not ready yet .Wait here , we're in service B...!";
     }
 }

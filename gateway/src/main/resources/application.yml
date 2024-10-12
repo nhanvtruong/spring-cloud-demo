@@ -6,7 +6,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: service-b
+        - id: serviceb
           uri: http://localhost:8082
           predicates:
             - Path=/**

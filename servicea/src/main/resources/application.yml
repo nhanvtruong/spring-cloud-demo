@@ -4,6 +4,16 @@ spring:
 server:
   port: 8081
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    initial-instance-info-replication-interval-seconds: 10
+service-a:
+  ribbon:
+    eureka:
+      enabled: true
